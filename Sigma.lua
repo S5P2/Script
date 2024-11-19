@@ -19,7 +19,7 @@ local ESP = {
 	Players = true,
 
 	Objects = setmetatable({}, {__mode="kv"}),
-	Overrides = {} 
+	Overrides = {}
 }
 
 --Declarations--
@@ -182,12 +182,7 @@ function boxBase:Update()
 		allow = false
 	end
 
-	if not allow then
-		for i,v in pairs(self.Components) do
-			v.Visible = false
-		end
-		return
-	end
+
 
 	--calculations--
 	local cf = self.PrimaryPart.CFrame
