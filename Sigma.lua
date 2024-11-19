@@ -403,8 +403,8 @@ end
 
 game:GetService("RunService").RenderStepped:Connect(function()
 	Camera = workspace.CurrentCamera
-	for i,v in (ESP.ESPEnabled or ESP.TracerEnabled and pairs or ipairs)(ESP.Objects) do
-		if v.Update then
+	for i,v in next, ESP.Objects do
+		if v.Update and ESP.ESPEnabled or ESP.TracerEnabled then
 			local Success, Error = pcall(v.Update, v)
 			if not Success then warn("[EU]", Error, v.Object:GetFullName()) end
 		end
