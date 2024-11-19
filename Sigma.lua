@@ -81,23 +81,25 @@ end
 function ESP:Toggle(bool, Type)
 	ESP[Type] = bool
 	if not bool then
-		for i,v in pairs(self.Objects) do
-			if v.Type == "Box" and Type == "ESPEnabled" then --fov circle etc
-				if v.Temporary then
-					v:Remove()
-				else
-					for i,v in pairs(v.Components) do
-						v.Visible = false
+		for i,v1 in pairs(Objects) do
+			for i,v in next, v1 do
+				if v.Type == "Box" and Type == "ESPEnabled" then --fov circle etc
+					if v.Temporary then
+						v:Remove()
+					else
+						for i,v in pairs(v.Components) do
+							v.Visible = false
+						end
 					end
 				end
-			end
-			
-			if v.Type == "Tracer" and Type == "TracerEnabled" then --fov circle etc
-				if v.Temporary then
-					v:Remove()
-				else
-					for i,v in pairs(v.Components) do
-						v.Visible = false
+
+				if v.Type == "Tracer" and Type == "TracerEnabled" then --fov circle etc
+					if v.Temporary then
+						v:Remove()
+					else
+						for i,v in pairs(v.Components) do
+							v.Visible = false
+						end
 					end
 				end
 			end
@@ -107,7 +109,7 @@ function ESP:Toggle(bool, Type)
 end
 
 function ESP:GetBox(obj)
-	return self.Objects[obj]
+	return Objects[obj]
 end
 
 function ESP:AddObjectListener(parent, options)
@@ -150,10 +152,12 @@ boxBase.__index = boxBase
 
 function boxBase:Remove()
 	ESP.Objects[self.Object] = nil
-	for i,v in pairs(self.Components) do
-		v.Visible = false
-		v:Remove()
-		self.Components[i] = nil
+	for i,v in pairs(Objects[self.Object]) do
+		for i,v in next, v do
+			v.Visible = false
+			v:Remove()
+			self.Components[i] = nil
+		end
 	end
 end
 
