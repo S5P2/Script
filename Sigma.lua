@@ -30,7 +30,7 @@ local mouse = plr:GetMouse()
 
 local V3new = Vector3.new
 local WorldToViewportPoint = Camera.WorldToViewportPoint
-local Objects = {}
+
 --Functions--
 local function Draw(obj, props)
 	local new = Drawing.new(obj)
@@ -81,35 +81,22 @@ end
 function ESP:Toggle(bool, Type)
 	ESP[Type] = bool
 	if not bool then
-		for i,v1 in pairs(Objects) do
-			for i,v in next, v1 do
-				if v.Type == "Box" and Type == "ESPEnabled" then --fov circle etc
-					if v.Temporary then
-						v:Remove()
-					else
-						for i,v in pairs(v.Components) do
-							v.Visible = false
-						end
-					end
-				end
-
-				if v.Type == "Tracer" and Type == "TracerEnabled" then --fov circle etc
-					if v.Temporary then
-						v:Remove()
-					else
-						for i,v in pairs(v.Components) do
-							v.Visible = false
-						end
+		for i,v in pairs(self.Objects) do
+			if v.Type == "Box" then --fov circle etc
+				if v.Temporary then
+					v:Remove()
+				else
+					for i,v in pairs(v.Components) do
+						v.Visible = false
 					end
 				end
 			end
-			
 		end
 	end
 end
 
 function ESP:GetBox(obj)
-	return Objects[obj]
+	return self.Objects[obj]
 end
 
 function ESP:AddObjectListener(parent, options)
@@ -152,12 +139,10 @@ boxBase.__index = boxBase
 
 function boxBase:Remove()
 	ESP.Objects[self.Object] = nil
-	for i,v in pairs(Objects[self.Object]) do
-		for i,v in next, v do
-			v.Visible = false
-			v:Remove()
-			self.Components[i] = nil
-		end
+	for i,v in pairs(self.Components) do
+		v.Visible = false
+		v:Remove()
+		self.Components[i] = nil
 	end
 end
 
@@ -216,64 +201,63 @@ function boxBase:Update()
 
 		if self.Components.Quad then
 			if Vis1 or Vis2 or Vis3 or Vis4 then
-				
-				Objects[self.Object][1].Components.Quad.Visible = true
-				Objects[self.Object][1].Components.Quad.PointA = Vector2.new(TopRight.X, TopRight.Y)
-				Objects[self.Object][1].Components.Quad.PointB = Vector2.new(TopLeft.X, TopLeft.Y)
-				Objects[self.Object][1].Components.Quad.PointC = Vector2.new(BottomLeft.X, BottomLeft.Y)
-				Objects[self.Object][1].Components.Quad.PointD = Vector2.new(BottomRight.X, BottomRight.Y)
-				Objects[self.Object][1].Components.Quad.Color = ESPColor
+				self.Components.Quad.Visible = true
+				self.Components.Quad.PointA = Vector2.new(TopRight.X, TopRight.Y)
+				self.Components.Quad.PointB = Vector2.new(TopLeft.X, TopLeft.Y)
+				self.Components.Quad.PointC = Vector2.new(BottomLeft.X, BottomLeft.Y)
+				self.Components.Quad.PointD = Vector2.new(BottomRight.X, BottomRight.Y)
+				self.Components.Quad.Color = ESPColor
 			else
-				Objects[self.Object][1].Components.Quad.Visible = false
+				self.Components.Quad.Visible = false
 			end
 		end
 	else
-		Objects[self.Object][1].Components.Quad.Visible = false
+		self.Components.Quad.Visible = false
 	end
 
 	if ESP.Names then
 		local TagPos, Vis5 = WorldToViewportPoint(Camera, locs.TagPos.p)
 
 		if Vis5 then
-			Objects[self.Object][1].Components.Name.Visible = true
-			Objects[self.Object][1].Components.Name.Position = Vector2.new(TagPos.X, TagPos.Y)
-			Objects[self.Object][1].Components.Name.Text = self.Name
-			Objects[self.Object][1].Components.Name.Color = ESPColor
+			self.Components.Name.Visible = true
+			self.Components.Name.Position = Vector2.new(TagPos.X, TagPos.Y)
+			self.Components.Name.Text = self.Name
+			self.Components.Name.Color = ESPColor
 		else
-			Objects[self.Object][1].Components.Name.Visible = false
+			self.Components.Name.Visible = false
 		end
 	else
-		Objects[self.Object][1].Components.Name.Visible = false
+		self.Components.Name.Visible = false
 	end
 
 	if ESP.Distances then
 		local TagPos, Vis5 = WorldToViewportPoint(Camera, locs.TagPos.p)
 
 		if Vis5 then
-			Objects[self.Object][1].Components.Distance.Visible = true
-			Objects[self.Object][1].Components.Distance.Position = Vector2.new(TagPos.X, TagPos.Y + 14)
-			Objects[self.Object][1].Components.Distance.Text = math.floor((Camera.CFrame.p - cf.p).magnitude) .." studs away"
-			Objects[self.Object][1].Components.Distance.Color = ESPColor
+			self.Components.Distance.Visible = true
+			self.Components.Distance.Position = Vector2.new(TagPos.X, TagPos.Y + 14)
+			self.Components.Distance.Text = math.floor((Camera.CFrame.p - cf.p).magnitude) .." studs away"
+			self.Components.Distance.Color = ESPColor
 		else
-			Objects[self.Object][1].Components.Distance.Visible = false
+			self.Components.Distance.Visible = false
 		end
 	else
-		Objects[self.Object][1].Components.Distance.Visible = false
+		self.Components.Distance.Visible = false
 	end
 
 	if ESP.Tracers then
 		local TorsoPos, Vis6 = WorldToViewportPoint(Camera, locs.Torso.p)
 
 		if Vis6 then
-			Objects[self.Object][2].Components.Tracer.Visible = true
-			Objects[self.Object][2].Components.Tracer.From = Vector2.new(TorsoPos.X, TorsoPos.Y)
-			Objects[self.Object][2].Components.Tracer.To = Vector2.new(Camera.ViewportSize.X/2,Camera.ViewportSize.Y/ESP.Attachshift)
-			Objects[self.Object][2].Components.Tracer.Color = TracerColor -- TRACER COLOR
+			self.Components.Tracer.Visible = true
+			self.Components.Tracer.From = Vector2.new(TorsoPos.X, TorsoPos.Y)
+			self.Components.Tracer.To = Vector2.new(Camera.ViewportSize.X/2,Camera.ViewportSize.Y/ESP.Attachshift)
+			self.Components.Tracer.Color = TracerColor -- TRACER COLOR
 		else
-			Objects[self.Object][2].Components.Tracer.Visible = false
+			self.Components.Tracer.Visible = false
 		end
 	else
-		Objects[self.Object][2].Components.Tracer.Visible = false
+		self.Components.Tracer.Visible = false
 	end
 end
 
@@ -285,22 +269,6 @@ function ESP:Add(obj, options)
 	local box = setmetatable({
 		Name = options.Name or obj.Name,
 		Type = "Box",
-		Color = options.Color --[[or self:GetColor(obj)]],
-		Size = options.Size or self.BoxSize,
-		Object = obj, -- <-- self.Object
-		Player = options.Player or Players:GetPlayerFromCharacter(obj),
-		PrimaryPart = options.PrimaryPart or obj.ClassName == "Model" and (obj.PrimaryPart or obj:FindFirstChild("HumanoidRootPart") or obj:FindFirstChildWhichIsA("BasePart")) or obj:IsA("BasePart") and obj,
-		Components = {},
-		IsEnabled = options.IsEnabled,
-		Temporary = options.Temporary,
-		ColorDynamic = options.ColorDynamic,
-		RenderInNil = options.RenderInNil
-	}, boxBase)
-	
-	
-	local Tracer = setmetatable({
-		Name = options.Name or obj.Name,
-		Type = "Tracer",
 		Color = options.Color --[[or self:GetColor(obj)]],
 		Size = options.Size or self.BoxSize,
 		Object = obj, -- <-- self.Object
@@ -340,13 +308,13 @@ function ESP:Add(obj, options)
 		Visible = ESP.ESPEnabled and self.Names
 	})
 
-	Tracer.Components["Tracer"] = Draw("Line", {
+	box.Components["Tracer"] = Draw("Line", {
 		Thickness = ESP.TracerThickness,
 		Color = box.Color,
 		Transparency = 1,
 		Visible = ESP.TracerEnabled and self.Tracers
 	})
-	Objects[obj] = {box, Tracer}
+	self.Objects[obj] = box
 
 	obj.AncestryChanged:Connect(function(_, parent)
 		if parent == nil and ESP.AutoRemove ~= false then
@@ -408,8 +376,8 @@ end
 
 game:GetService("RunService").RenderStepped:Connect(function()
 	Camera = workspace.CurrentCamera
-	for i,v in next, ESP.Objects do
-		if v.Update and ESP.ESPEnabled or ESP.TracerEnabled then
+	for i,v in (ESP.ESPEnabled or ESP.TracerEnabled and pairs or ipairs)(ESP.Objects) do
+		if v.Update then
 			local Success, Error = pcall(v.Update, v)
 			if not Success then warn("[EU]", Error, v.Object:GetFullName()) end
 		end
