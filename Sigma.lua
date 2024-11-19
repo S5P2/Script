@@ -19,7 +19,7 @@ local ESP = {
 	Players = true,
 
 	Objects = setmetatable({}, {__mode="kv"}),
-	Overrides = {}
+	Overrides = {} 
 }
 
 --Declarations--
