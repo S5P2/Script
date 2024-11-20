@@ -123,19 +123,18 @@ function EspObject.new(Player, interface)
 end
 
 function EspObject:_create(class, properties)
-	print(self)
 	local drawing = Drawing.new(class);
 	for property, value in next, properties do
 		pcall(function() drawing[property] = value; end);
 	end
-	self.bin[#self.bin + 1] = drawing;
+	bin[#bin + 1] = drawing;
 	return drawing
 end
 
 function EspObject:Construct()
 	self.charCache = {}
 	self.childCount = 0
-	self.bin = {}
+	bin = {}
 	self.drawings = {
 		["Box3D"] = {
 			{
@@ -187,8 +186,8 @@ end
 function EspObject:Destruct()
 	self.renderConnection:Disconnect();
 
-	for i = 1, #self.bin do
-		self.bin[i]:Remove();
+	for i = 1, #bin do
+		bin[i]:Remove();
 	end
 
 	clear(self);
