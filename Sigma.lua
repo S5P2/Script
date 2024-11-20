@@ -268,8 +268,9 @@ function EspObject:Render()
 		BoxOutline.Color = parseColor(self, interface.sharedSettings.BoxOutlineColor[1], true);
 		BoxOutline.Transparency = interface.sharedSettings.BoxOutlineColor[2];
 	end
-
+	print(visible.BoxFill)
 	visible.BoxFill.Visible = Enabled and onScreen and interface.sharedSettings.BoxFill;
+	
 	if visible.Boxfill.Visible then
 		local BoxFill = visible.BoxFill;
 		BoxFill.Position = corners.topLeft;
