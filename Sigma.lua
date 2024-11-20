@@ -254,28 +254,28 @@ function EspObject:Render()
 	local corners = self.corners;
 
 	visible.Box.Visible = Enabled and onScreen and interface.sharedSettings.Box;
-	visible.BoxOutline.Visible = visible.box.Visible and interface.sharedSettings.BoxOutline;
-	if visible.box.Visible then
-		local box = visible.box;
-		box.Position = corners.topLeft;
-		box.Size = corners.bottomRight - corners.topLeft;
-		box.Color = parseColor(self, interface.sharedSettings.BoxColor[1]);
-		box.Transparency = interface.sharedSettings.BoxColor[2];
+	visible.BoxOutline.Visible = visible.Box.Visible and interface.sharedSettings.BoxOutline;
+	if visible.Box.Visible then
+		local Box = visible.Box;
+		Box.Position = corners.topLeft;
+		Box.Size = corners.bottomRight - corners.topLeft;
+		Box.Color = parseColor(self, interface.sharedSettings.BoxColor[1]);
+		Box.Transparency = interface.sharedSettings.BoxColor[2];
 
 		local BoxOutline = visible.BoxOutline;
-		BoxOutline.Position = box.Position;
-		BoxOutline.Size = box.Size;
+		BoxOutline.Position = Box.Position;
+		BoxOutline.Size = Box.Size;
 		BoxOutline.Color = parseColor(self, interface.sharedSettings.BoxOutlineColor[1], true);
 		BoxOutline.Transparency = interface.sharedSettings.BoxOutlineColor[2];
 	end
 
-	visible.boxFill.Visible = Enabled and onScreen and interface.sharedSettings.BoxFill;
+	visible.BoxFill.Visible = Enabled and onScreen and interface.sharedSettings.BoxFill;
 	if visible.boxFill.Visible then
-		local boxFill = visible.boxFill;
-		boxFill.Position = corners.topLeft;
-		boxFill.Size = corners.bottomRight - corners.topLeft;
-		boxFill.Color = parseColor(self, Options.boxFillColor[1]);
-		boxFill.Transparency = interface.sharedSettings.BoxFillColor[2];
+		local BoxFill = visible.BoxFill;
+		BoxFill.Position = corners.topLeft;
+		BoxFill.Size = corners.bottomRight - corners.topLeft;
+		BoxFill.Color = parseColor(self, Options.boxFillColor[1]);
+		BoxFill.Transparency = interface.sharedSettings.BoxFillColor[2];
 	end
 
 	visible.HealthBar.Visible = Enabled and onScreen and  interface.sharedSettings.HealthBar;
