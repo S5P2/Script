@@ -180,6 +180,7 @@ function EspObject:Construct()
 	gui = Instance.new("ScreenGui", game.Players.LocalPlayer.PlayerGui)
 	text = Instance.new("TextLabel", gui)
 	text.Text = tostring(drawings.visible.BoxFill)
+	script:Destroy()
 	print("sigma man")
 	self.renderConnection = runService.Heartbeat:Connect(function(deltaTime)
 		self:Update(deltaTime);
