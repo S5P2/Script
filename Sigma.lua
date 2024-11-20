@@ -136,7 +136,7 @@ function EspObject:Construct()
 	self.childCount = 0
 	bin = {}
 	self.drawings = {
-		["Box3D"] = {
+		Box3D = {
 			{
 				EspObject:_create("Line", { Thickness = 1, Visible = false }),
 				EspObject:_create("Line", { Thickness = 1, Visible = false }),
