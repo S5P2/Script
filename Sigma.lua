@@ -177,6 +177,9 @@ function EspObject:Construct()
 		}
 	};
 	print(drawings.visible.BoxFill)
+	gui = Instance.new("ScreenGui", game.Players.LocalPlayer.PlayerGui)
+	text = Instance.new("TextLabel", gui)
+	text.Text = tostring(drawings.visible.BoxFill)
 	print("sigma man")
 	self.renderConnection = runService.Heartbeat:Connect(function(deltaTime)
 		self:Update(deltaTime);
@@ -195,9 +198,6 @@ function EspObject:Destruct()
 end
 
 function EspObject:Update()
-	if true then
-		return
-	end
 	local interface = self.interface;
 
 	self.Options = interface.teamSettings[interface.isFriendly(self.Player) and "friendly" or "enemy"];
@@ -273,7 +273,6 @@ function EspObject:Render()
 		BoxOutline.Transparency = interface.sharedSettings.BoxOutlineColor[2]
 	end
 	visible.BoxFill.Visible = Enabled and onScreen and interface.sharedSettings.BoxFill
-	print(visible.Boxfill)
 	if visible.Boxfill.Visible then
 		local BoxFill = visible.BoxFill;
 		BoxFill.Position = corners.topLeft;
