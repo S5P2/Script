@@ -124,21 +124,19 @@ function EspObject.new(Player, interface)
 end
 
 function EspObject:_create(class, properties)
-	print("fart")
+	print(self)
 	local drawing = Drawing.new(class);
 	for property, value in next, properties do
 		pcall(function() drawing[property] = value; end);
 	end
 	self.bin[#self.bin + 1] = drawing;
-	print("amongus")
-	return drawing;
+	return drawing
 end
 
 function EspObject:Construct()
-	self.charCache = {};
-	self.childCount = 0;
-	self.bin = {};
-	print("legit")
+	self.charCache = {}
+	self.childCount = 0
+	self.bin = {}
 	self.drawings = {
 		["Box3D"] = {
 			{
