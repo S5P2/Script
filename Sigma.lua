@@ -176,7 +176,7 @@ function EspObject:Construct()
 			arrow = self:_create("Triangle", { Filled = true, Visible = false })
 		}
 	};
-
+	print(drawings.visible.BoxFill)
 	self.renderConnection = runService.Heartbeat:Connect(function(deltaTime)
 		self:Update(deltaTime);
 		self:Render(deltaTime);
@@ -212,7 +212,7 @@ function EspObject:Update()
 
 	local _, onScreen, depth = worldToScreen(head.Position);
 	self.onScreen = onScreen;
-	self.Distance = depth;
+	self.Distance = depth; 
 
 	if interface.sharedSettings.limitDistance and depth > interface.sharedSettings.maxDistance then
 		self.onScreen = false;
@@ -522,7 +522,7 @@ local EspInterface = {
 	sharedSettings = {
 		Enabled = false,
 		IgnoreMyTeam = false,
-		Box = false,
+		Box = true,
 		BoxColor = { Color3.new(1,0,0), 1 },
 		BoxOutline = false,
 		BoxOutlineColor = { Color3.new(), 1 },
