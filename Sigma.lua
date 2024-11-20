@@ -1,4 +1,3 @@
-print("Hello world!")
 -- services
 local runService = game:GetService("RunService");
 local players = game:GetService("Players");
@@ -116,11 +115,11 @@ local EspObject = {};
 EspObject.__index = EspObject;
 
 function EspObject.new(Player, interface)
-	local self = setmetatable({}, EspObject);
-	self.Player = assert(Player, "Missing argument #1 (Player expected)");
-	self.interface = assert(interface, "Missing argument #2 (table expected)");
-	self:Construct();
-	return self;
+	local Self = setmetatable({}, EspObject);
+	Self.Player = assert(Player, "Missing argument #1 (Player expected)");
+	Self.interface = assert(interface, "Missing argument #2 (table expected)");
+	Self:Construct();
+	return Self;
 end
 
 function EspObject:_create(class, properties)
@@ -404,11 +403,11 @@ local ChamObject = {};
 ChamObject.__index = ChamObject;
 
 function ChamObject.new(Player, interface)
-	local self = setmetatable({}, ChamObject);
-	self.Player = assert(Player, "Missing argument #1 (Player expected)");
-	self.interface = assert(interface, "Missing argument #2 (table expected)");
-	self:Construct();
-	return self;
+	local Self = setmetatable({}, ChamObject);
+	Self.Player = assert(Player, "Missing argument #1 (Player expected)");
+	Self.interface = assert(interface, "Missing argument #2 (table expected)");
+	Self:Construct();
+	return Self;
 end
 
 function ChamObject:Construct()
@@ -449,11 +448,11 @@ local InstanceObject = {};
 InstanceObject.__index = InstanceObject;
 
 function InstanceObject.new(instance, Options)
-	local self = setmetatable({}, InstanceObject);
-	self.instance = assert(instance, "Missing argument #1 (Instance Expected)");
-	self.Options = assert(Options, "Missing argument #2 (table expected)");
-	self:Construct();
-	return self;
+	local Self = setmetatable({}, InstanceObject);
+	Self.instance = assert(instance, "Missing argument #1 (Instance Expected)");
+	Self.Options = assert(Options, "Missing argument #2 (table expected)");
+	Self:Construct();
+	return Self;
 end
 
 function InstanceObject:Construct()
