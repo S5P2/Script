@@ -177,6 +177,7 @@ function EspObject:Construct()
 		}
 	};
 	print(drawings.visible.BoxFill)
+	print("sigma man")
 	self.renderConnection = runService.Heartbeat:Connect(function(deltaTime)
 		self:Update(deltaTime);
 		self:Render(deltaTime);
