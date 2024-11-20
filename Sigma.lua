@@ -253,24 +253,23 @@ function EspObject:Render()
 	local Options = self.Options;
 	local corners = self.corners;
 
-	visible.Box.Visible = Enabled and onScreen and interface.sharedSettings.Box;
-	visible.BoxOutline.Visible = visible.Box.Visible and interface.sharedSettings.BoxOutline;
+	visible.Box.Visible = Enabled and onScreen and interface.sharedSettings.Box
+	visible.BoxOutline.Visible = visible.Box.Visible and interface.sharedSettings.BoxOutline
 	if visible.Box.Visible then
-		local Box = visible.Box;
-		Box.Position = corners.topLeft;
-		Box.Size = corners.bottomRight - corners.topLeft;
-		Box.Color = parseColor(self, interface.sharedSettings.BoxColor[1]);
-		Box.Transparency = interface.sharedSettings.BoxColor[2];
+		local Box = visible.Box
+		Box.Position = corners.topLeft
+		Box.Size = corners.bottomRight - corners.topLeft
+		Box.Color = parseColor(self, interface.sharedSettings.BoxColor[1])
+		Box.Transparency = interface.sharedSettings.BoxColor[2]
 
 		local BoxOutline = visible.BoxOutline;
 		BoxOutline.Position = Box.Position;
 		BoxOutline.Size = Box.Size;
-		BoxOutline.Color = parseColor(self, interface.sharedSettings.BoxOutlineColor[1], true);
-		BoxOutline.Transparency = interface.sharedSettings.BoxOutlineColor[2];
+		BoxOutline.Color = parseColor(self, interface.sharedSettings.BoxOutlineColor[1], true)
+		BoxOutline.Transparency = interface.sharedSettings.BoxOutlineColor[2]
 	end
-	print(visible.BoxFill)
-	visible.BoxFill.Visible = Enabled and onScreen and interface.sharedSettings.BoxFill;
-	
+	visible.BoxFill.Visible = Enabled and onScreen and interface.sharedSettings.BoxFill
+	print(Enabled and onScreen and interface.sharedSettings.BoxFill)
 	if visible.Boxfill.Visible then
 		local BoxFill = visible.BoxFill;
 		BoxFill.Position = corners.topLeft;
