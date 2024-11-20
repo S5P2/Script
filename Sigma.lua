@@ -135,7 +135,7 @@ function EspObject:Construct()
 	self.charCache = {}
 	self.childCount = 0
 	bin = {}
-	self.drawings = {
+	drawings = {
 		Box3D = {
 			{
 				EspObject:_create("Line", { Thickness = 1, Visible = false }),
@@ -246,9 +246,9 @@ end
 function EspObject:Render()
 	local onScreen = self.onScreen or false;
 	local Enabled = self.Enabled or false;
-	local visible = self.drawings.visible;
-	local hidden = self.drawings.hidden;
-	local Box3D = self.drawings.Box3D;
+	local visible = drawings.visible;
+	local hidden = drawings.hidden;
+	local Box3D = drawings.Box3D;
 	local interface = self.interface;
 	local Options = self.Options;
 	local corners = self.corners;
