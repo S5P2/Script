@@ -270,11 +270,11 @@ function EspObject:Render()
 	end
 
 	visible.BoxFill.Visible = Enabled and onScreen and interface.sharedSettings.BoxFill;
-	if visible.boxFill.Visible then
+	if visible.Boxfill.Visible then
 		local BoxFill = visible.BoxFill;
 		BoxFill.Position = corners.topLeft;
 		BoxFill.Size = corners.bottomRight - corners.topLeft;
-		BoxFill.Color = parseColor(self, Options.boxFillColor[1]);
+		BoxFill.Color = parseColor(self, Options.BoxFillColor[1]);
 		BoxFill.Transparency = interface.sharedSettings.BoxFillColor[2];
 	end
 
