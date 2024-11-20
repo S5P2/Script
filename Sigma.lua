@@ -124,6 +124,7 @@ function EspObject.new(Player, interface)
 end
 
 function EspObject:_create(class, properties)
+	print("fart")
 	local drawing = Drawing.new(class);
 	for property, value in next, properties do
 		pcall(function() drawing[property] = value; end);
@@ -133,6 +134,7 @@ function EspObject:_create(class, properties)
 end
 
 function EspObject:Construct()
+	print("legit")
 	self.charCache = {};
 	self.childCount = 0;
 	self.bin = {};
