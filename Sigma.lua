@@ -129,6 +129,9 @@ function EspObject:_create(class, properties)
 	for property, value in next, properties do
 		pcall(function() drawing[property] = value; end);
 	end
+	print(self.bin)
+	print("ughm")
+	print(drawing)
 	self.bin[#self.bin + 1] = drawing;
 	return drawing;
 end
