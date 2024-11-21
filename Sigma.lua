@@ -127,15 +127,15 @@ function EspObject:_create(class, properties)
 	for property, value in next, properties do
 		pcall(function() drawing[property] = value; end);
 	end
-	bin[#bin + 1] = drawing;
+	self.bin[#self.bin + 1] = drawing;
 	return drawing
 end
 
 function EspObject:Construct()
 	self.charCache = {}
 	self.childCount = 0
-	bin = {}
-	drawings = {
+	self.bin = {}
+	self.drawings = {
 		Box3D = {
 			{
 				EspObject:_create("Line", { Thickness = 1, Visible = false }),
@@ -176,10 +176,6 @@ function EspObject:Construct()
 			arrow = self:_create("Triangle", { Filled = true, Visible = false })
 		}
 	};
-	print(drawings.visible.BoxFill)
-	gui = Instance.new("ScreenGui", game.Players.LocalPlayer.PlayerGui)
-	text = Instance.new("TextLabel", gui)
-	text.Text = tostring(drawings.visible.BoxFill)
 	script:Destroy()
 	print("sigma man")
 	self.renderConnection = runService.Heartbeat:Connect(function(deltaTime)
@@ -191,8 +187,8 @@ end
 function EspObject:Destruct()
 	self.renderConnection:Disconnect();
 
-	for i = 1, #bin do
-		bin[i]:Remove();
+	for i = 1, #self.bin do
+		self.bin[i]:Remove();
 	end
 
 	clear(self);
@@ -251,13 +247,15 @@ end
 function EspObject:Render()
 	local onScreen = self.onScreen or false;
 	local Enabled = self.Enabled or false;
-	local visible = drawings.visible;
-	local hidden = drawings.hidden;
-	local Box3D = drawings.Box3D;
+	local visible = self.drawings.visible
+	local hidden = self.drawings.hidden
+	local Box3D = self.drawings.Box3D
 	local interface = self.interface;
 	local Options = self.Options;
 	local corners = self.corners;
-
+	for i,v in next,self.drawings.visible do
+		print(v)
+	end
 	visible.Box.Visible = Enabled and onScreen and interface.sharedSettings.Box
 	visible.BoxOutline.Visible = visible.Box.Visible and interface.sharedSettings.BoxOutline
 	if visible.Box.Visible then
@@ -536,40 +534,40 @@ local EspInterface = {
 		Name = false,
 		Weapon = false,
 		Distance = false,
-		
-		
+
+
 		TextSize = 13,
 		TextFont = 3,
 		LimitDistance = false,
 		MaxDistance = 150,
 		TeamColor = false,
-		
+
 		HealthBar = false,
 		HealthyColor = Color3.new(0,1,0),
 		DyingColor = Color3.new(1,0,0),
 		HealthText = false,
 		Box3D = false,
 		Box3DColor = { Color3.new(0,1,0), 1 },
-		
-		
+
+
 		ChamsEnabled = false,
 		ChamsVisibilityType = false,
 		ChamsFillColor = { Color3.new(0.2, 0.2, 0.2), 0.5 },
 		ChamsOutlineColor = { Color3.new(0,1,0), 0 },
-		
-		
+
+
 		Tracer = false,
 		TracerOrigin = "Bottom",
 		TracerColor = { Color3.new(0,1,0), 1 },
 		TracerOutline = true,
 		TracerOutlineColor = { Color3.new(), 1 },
-		
-		
+
+
 	},
 	teamSettings = {
 		enemy = {
 
-			
+
 
 		},
 		friendly = {
