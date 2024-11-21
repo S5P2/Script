@@ -115,18 +115,19 @@ local EspObject = {};
 EspObject.__index = EspObject;
 
 function EspObject.new(Player, interface)
-	local Self = setmetatable({}, EspObject);
-	Self.Player = assert(Player, "Missing argument #1 (Player expected)");
-	Self.interface = assert(interface, "Missing argument #2 (table expected)");
-	Self:Construct();
-	return Self;
+	local self = setmetatable({}, EspObject);
+	self.Player = assert(Player, "Missing argument #1 (Player expected)");
+	self.interface = assert(interface, "Missing argument #2 (table expected)");
+	self:Construct();
+	return self;
 end
 
-function EspObject:_create(class, properties)
+function EspObject:_create( class, properties)
 	local drawing = Drawing.new(class);
 	for property, value in next, properties do
 		pcall(function() drawing[property] = value; end);
 	end
+
 	self.bin[#self.bin + 1] = drawing;
 	return drawing
 end
@@ -135,27 +136,28 @@ function EspObject:Construct()
 	self.charCache = {}
 	self.childCount = 0
 	self.bin = {}
+	print(self.bin)
 	self.drawings = {
 		Box3D = {
 			{
-				EspObject:_create("Line", { Thickness = 1, Visible = false }),
-				EspObject:_create("Line", { Thickness = 1, Visible = false }),
-				EspObject:_create("Line", { Thickness = 1, Visible = false })
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false })
 			},
 			{
-				EspObject:_create("Line", { Thickness = 1, Visible = false }),
-				EspObject:_create("Line", { Thickness = 1, Visible = false }),
-				EspObject:_create("Line", { Thickness = 1, Visible = false })
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false })
 			},
 			{
-				EspObject:_create("Line", { Thickness = 1, Visible = false }),
-				EspObject:_create("Line", { Thickness = 1, Visible = false }),
-				EspObject:_create("Line", { Thickness = 1, Visible = false })
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false })
 			},
 			{
-				EspObject:_create("Line", { Thickness = 1, Visible = false }),
-				EspObject:_create("Line", { Thickness = 1, Visible = false }),
-				EspObject:_create("Line", { Thickness = 1, Visible = false })
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false }),
+				self:_create("Line", { Thickness = 1, Visible = false })
 			}
 		},
 		visible = {
@@ -177,7 +179,6 @@ function EspObject:Construct()
 		}
 	};
 	script:Destroy()
-	print("sigma man")
 	self.renderConnection = runService.Heartbeat:Connect(function(deltaTime)
 		self:Update(deltaTime);
 		self:Render(deltaTime);
@@ -254,7 +255,7 @@ function EspObject:Render()
 	local Options = self.Options;
 	local corners = self.corners;
 	for i,v in next,self.drawings.visible do
-		print(v)
+		--print(v)
 	end
 	visible.Box.Visible = Enabled and onScreen and interface.sharedSettings.Box
 	visible.BoxOutline.Visible = visible.Box.Visible and interface.sharedSettings.BoxOutline
@@ -272,7 +273,7 @@ function EspObject:Render()
 		BoxOutline.Transparency = interface.sharedSettings.BoxOutlineColor[2]
 	end
 	visible.BoxFill.Visible = Enabled and onScreen and interface.sharedSettings.BoxFill
-	if visible.Boxfill.Visible then
+	if visible.BoxFill.Visible then
 		local BoxFill = visible.BoxFill;
 		BoxFill.Position = corners.topLeft;
 		BoxFill.Size = corners.bottomRight - corners.topLeft;
@@ -404,11 +405,11 @@ local ChamObject = {};
 ChamObject.__index = ChamObject;
 
 function ChamObject.new(Player, interface)
-	local Self = setmetatable({}, ChamObject);
-	Self.Player = assert(Player, "Missing argument #1 (Player expected)");
-	Self.interface = assert(interface, "Missing argument #2 (table expected)");
-	Self:Construct();
-	return Self;
+	local self = setmetatable({}, ChamObject);
+	self.Player = assert(Player, "Missing argument #1 (Player expected)");
+	self.interface = assert(interface, "Missing argument #2 (table expected)");
+	self:Construct();
+	return self;
 end
 
 function ChamObject:Construct()
@@ -440,7 +441,7 @@ function ChamObject:Update()
 		HighLight.FillTransparency = interface.sharedSettings.ChamsFillColor[2];
 		HighLight.OutlineColor = parseColor(self, interface.sharedSettings.ChamsOutlineColor[1], true);
 		HighLight.OutlineTransparency = interface.sharedSettings.ChamsOutlineColor[2];
-		HighLight.DepthMode = interface.sharedSettings.ChamsVisibilityType and "Occluded" or "AlwaysOnTop";
+		HighLight.DepthMode = interface.sharedSettings.ChamsVisibilityType
 	end
 end
 
@@ -449,11 +450,11 @@ local InstanceObject = {};
 InstanceObject.__index = InstanceObject;
 
 function InstanceObject.new(instance, Options)
-	local Self = setmetatable({}, InstanceObject);
-	Self.instance = assert(instance, "Missing argument #1 (Instance Expected)");
-	Self.Options = assert(Options, "Missing argument #2 (table expected)");
-	Self:Construct();
-	return Self;
+	local self = setmetatable({}, InstanceObject);
+	self.instance = assert(instance, "Missing argument #1 (Instance Expected)");
+	self.Options = assert(Options, "Missing argument #2 (table expected)");
+	self:Construct();
+	return self;
 end
 
 function InstanceObject:Construct()
@@ -551,7 +552,7 @@ local EspInterface = {
 
 
 		ChamsEnabled = false,
-		ChamsVisibilityType = false,
+		ChamsVisibilityType = "AlwaysOnTop", -- Occluded, AlwaysOnTop
 		ChamsFillColor = { Color3.new(0.2, 0.2, 0.2), 0.5 },
 		ChamsOutlineColor = { Color3.new(0,1,0), 0 },
 
