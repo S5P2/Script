@@ -89,7 +89,7 @@ local function calculateCorners(cframe, size)
 	local max = max2(Vector2.zero, unpack(corners));
 	return {
 		corners = corners,
-		topLeft = Vector2.new(floor(min.X), floor(min.Y)),
+		topLeft = Vector2.new(floor(min.X), floor(min.Y)), --  cf * ESP.BoxShift * CFrame.new(size.X/2,size.Y/2,0) AMONGUS
 		topRight = Vector2.new(floor(max.X), floor(min.Y)),
 		bottomLeft = Vector2.new(floor(min.X), floor(max.Y)),
 		bottomRight = Vector2.new(floor(max.X), floor(max.Y))
@@ -177,7 +177,7 @@ function EspObject:Construct()
 			arrowOutline = self:_create("Triangle", { Thickness = 3, Visible = false }),
 			arrow = self:_create("Triangle", { Filled = true, Visible = false })
 		}
-	};
+	}
 	script:Destroy()
 	self.renderConnection = runService.Heartbeat:Connect(function(deltaTime)
 		self:Update(deltaTime);
@@ -299,7 +299,7 @@ function EspObject:Render()
 		HealthBarOutline.Transparency = interface.sharedSettings.BoxOutlineColor[2];
 	end
 
-	visible.healthText.Visible = Enabled and onScreen and Options.healthText;
+	visible.healthText.Visible = Enabled and onScreen and interface.sharedSettings.healthText;
 	if visible.healthText.Visible then
 		local barFrom = corners.topLeft - HEALTH_BAR_OFFSET;
 		local barTo = corners.bottomLeft - HEALTH_BAR_OFFSET;
@@ -315,7 +315,7 @@ function EspObject:Render()
 		HealthText.Position = lerp2(barTo, barFrom, self.health/self.maxHealth) - HealthText.TextBounds*0.5 - HEALTH_TEXT_OFFSET;
 	end
 
-	visible.Name.Visible = Enabled and onScreen and Options.Name;
+	visible.Name.Visible = Enabled and onScreen and interface.sharedSettings.Name;
 	if visible.Name.Visible then
 		local Name = visible.Name;
 		Name.Size = interface.sharedSettings.TextSize;
@@ -327,7 +327,7 @@ function EspObject:Render()
 		Name.Position = (corners.topLeft + corners.topRight)*0.5 - Vector2.yAxis*Name.TextBounds.Y - NAME_OFFSET;
 	end
 
-	visible.Distance.Visible = Enabled and onScreen and self.Distance and Options.Distance;
+	visible.Distance.Visible = Enabled and onScreen and self.Distance and interface.sharedSettings.Distance;
 	if visible.Distance.Visible then
 		local Distance = visible.Distance;
 		Distance.Text = round(self.Distance) .. " studs";
@@ -340,7 +340,7 @@ function EspObject:Render()
 		Distance.Position = (corners.bottomLeft + corners.bottomRight)*0.5 + DISTANCE_OFFSET;
 	end
 
-	visible.Weapon.Visible = Enabled and onScreen and Options.Weapon;
+	visible.Weapon.Visible = Enabled and onScreen and interface.sharedSettings.Weapon;
 	if visible.Weapon.Visible then
 		local Weapon = visible.Weapon;
 		Weapon.Text = self.Weapon;
@@ -441,7 +441,7 @@ function ChamObject:Update()
 		HighLight.FillTransparency = interface.sharedSettings.ChamsFillColor[2];
 		HighLight.OutlineColor = parseColor(self, interface.sharedSettings.ChamsOutlineColor[1], true);
 		HighLight.OutlineTransparency = interface.sharedSettings.ChamsOutlineColor[2];
-		HighLight.DepthMode = interface.sharedSettings.ChamsVisibilityType
+		HighLight.DepthMode = interface.sharedSettings.ChamsVisibilityType and "Occluded" or "AlwaysOnTop";
 	end
 end
 
@@ -552,7 +552,7 @@ local EspInterface = {
 
 
 		ChamsEnabled = false,
-		ChamsVisibilityType = "AlwaysOnTop", -- Occluded, AlwaysOnTop
+		ChamsVisibilityType = false,
 		ChamsFillColor = { Color3.new(0.2, 0.2, 0.2), 0.5 },
 		ChamsOutlineColor = { Color3.new(0,1,0), 0 },
 
